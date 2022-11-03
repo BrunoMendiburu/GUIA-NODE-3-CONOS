@@ -1,4 +1,3 @@
-const { appendFile } = require("fs");
 const conn = require("../db");
 
 const getArtistas = (_, res) => {
@@ -6,43 +5,22 @@ const getArtistas = (_, res) => {
         if (err) throw err;
         res.json(res_db);
     });
-    /*
-        [
-            {
-                "id": "Id del artista",
-                "nombre": "Nombre del artista"
-            },
-            {
-                "id": "Id del artista",
-                "nombre": "Nombre del artista"
-            },
-            ...
-        ]
-    */
 };
 
 const getArtista = (req, res) => {
-    // Completar con la consulta que devuelve un artista
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        {
-            "id": "Id del artista",
-            "nombre": "Nombre del artista"
-        }
-    */
+    const { id } = req.params;
+    conn.query('SELECT * FROM artistas WHERE id = ?', [id], (err, res_db) => { 
+        if (err) throw err;
+        res.json(res_db);
+    });
 };
 
 const createArtista = (req, res) => {
-    // Completar con la consulta que crea un artista
-    // Recordar que los parámetros de una consulta POST se encuentran en req.body
-    // Deberían recibir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre del artista",
-        }
-    */
-};
+    conn.query('INSERT INTO artistas SET ?', req.body, (err, res_db) => {
+        if (err) throw err;
+        res.json(res_db);
+    });
+}
 
 const updateArtista = (req, res) => {
     // Completar con la consulta que actualiza un artista
